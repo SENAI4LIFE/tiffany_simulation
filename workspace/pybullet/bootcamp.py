@@ -5,8 +5,8 @@ import numpy as np
 DIFFICULTY  = 3.0
 DIFF_MIN    = 1.0
 DIFF_MAX    = 5.0
-PROP_SIZE   = 10.0
-START_X     = 10.0
+PROP_SIZE   = 1.0
+START_X     = 1.0
 NUM_PROPS   = 10
 TERRAIN_END_X = START_X + NUM_PROPS * PROP_SIZE
 
