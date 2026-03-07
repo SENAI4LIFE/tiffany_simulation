@@ -15,6 +15,24 @@ onshape-to-robot was used to convert the onshape model assembly into .urdf, whic
 https://github.com/Rhoban/onshape-to-robot <br>
 https://onshape-to-robot.readthedocs.io/
 
+If you want to use your own hexapod model, you should add a keys and a config.json file in a folder
+To get the API keys, follow the onshape-to-robot documentation
+the key textis formatted as follow:
+`
+export ONSHAPE_API=https://cad.onshape.com
+export ONSHAPE_ACCESS_KEY=
+export ONSHAPE_SECRET_KEY=
+`
+
+```
+pip install onshape-to-robot
+```
+then, source your keys using:
+
+
+```
+source keys
+```
 # (In Development)
 Refining the kinematics inside pybullet before going through ros and gazebo implementation.
 
