@@ -15,7 +15,7 @@ onshape-to-robot was used to convert the onshape model assembly into .urdf, whic
 https://github.com/Rhoban/onshape-to-robot <br>
 https://onshape-to-robot.readthedocs.io/
 
-If you want to use your own hexapod model, you should modify the keys and a config.json to generate your own assets.
+If you want to use your own hexapod model, you should modify the keys and a config.json to generate your own assets. <br>
 To get the API keys, follow the onshape-to-robot documentation
 keys file: <br>
 ```
