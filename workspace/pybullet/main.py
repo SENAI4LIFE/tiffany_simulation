@@ -412,6 +412,6 @@ def main():
                 set_leg(robot, cfg, o, f, t)
 
         p.stepSimulation()
-        time.sleep(DT)
+        time.sleep(DT * 2)
 
 main()
