@@ -19,12 +19,12 @@ _RAD = _PI / 180.0
 _DEG = 180.0 / _PI
 
 LEG_CONFIGS = [
-    (0,  1,  2,  -30, 25, -95, "right"),
-    (3,  4,  5,    0, 25, -95, "right"),
-    (6,  7,  8,   30, 25, -95, "right"),
-    (9,  10, 11,  30, 25, -95, "left"),
-    (12, 13, 14,   0, 25, -95, "left"),
-    (15, 16, 17, -30, 25, -95, "left"),
+    (0,  1,  2,  -30, 25, -100, "right"),
+    (3,  4,  5,    0, 25, -100, "right"),
+    (6,  7,  8,   30, 25, -100, "right"),
+    (9,  10, 11,  30, 25, -100, "left"),
+    (12, 13, 14,   0, 25, -100, "left"),
+    (15, 16, 17, -30, 25, -100, "left"),
 ]
 
 SHOULDER_POSITIONS = [
@@ -38,7 +38,7 @@ SHOULDER_POSITIONS = [
 
 OFFSETS = [0, METADE_PONTOS, 0, METADE_PONTOS, 0, METADE_PONTOS]
 
-STEP_LENGTH = -8.0
+STEP_LENGTH = -15.0
 
 ANGLES_STOW_BY_LEG = [
     (-30, 90, -135),
