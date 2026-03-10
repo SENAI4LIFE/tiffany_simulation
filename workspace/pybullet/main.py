@@ -45,12 +45,12 @@ OFFSETS = [0, METADE_PONTOS, 0, METADE_PONTOS, 0, METADE_PONTOS]
 STEP_LENGTH = -8.0
 
 ANGLES_STOW_BY_LEG = [
-    (-30, 90, -135),
     (  0, 90, -135),
-    ( 30, 90, -135),
-    ( 30, 90, -135),
     (  0, 90, -135),
-    (-30, 90, -135),
+    ( 0, 90, -135),
+    ( 0, 90, -135),
+    (  0, 90, -135),
+    (0, 90, -135),
 ]
 
 def fk(ombro_deg, femur_deg, tibia_deg):
