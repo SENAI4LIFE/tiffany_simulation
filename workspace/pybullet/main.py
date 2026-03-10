@@ -7,6 +7,8 @@ import bootcamp
 
 SIM_FREQ      = 120
 DT            = 1.0 / SIM_FREQ
+GAIT_TICK_MS  = 20
+GAIT_TICK_STEPS = max(1, round(GAIT_TICK_MS / 1000.0 / DT))
 TOTAL_PONTOS  = 25
 METADE_PONTOS = TOTAL_PONTOS // 2
 
@@ -40,7 +42,7 @@ SHOULDER_POSITIONS = [
 
 OFFSETS = [0, METADE_PONTOS, 0, METADE_PONTOS, 0, METADE_PONTOS]
 
-STEP_LENGTH = -15.0
+STEP_LENGTH = -8.0
 
 ANGLES_STOW_BY_LEG = [
     (-30, 90, -135),
@@ -214,7 +216,7 @@ def setup_simulation():
     robot = p.loadURDF("robot.urdf", [0, 0, 0])
     for j in range(p.getNumJoints(robot)):
         p.changeDynamics(robot, j,
-                         lateralFriction=5.0,
+                         lateralFriction=10.0,
                          jointDamping=0.1,
                          restitution=0.0,
                          maxJointVelocity=6.0)
@@ -355,6 +357,7 @@ def main():
 
     state          = "POWERED_OFF"
     k              = 0
+    sim_tick       = 0
     nav_mode       = "OMNI"
     cam_track      = False
     smoothed_rpy   = [0.0, 0.0, 0.0]
@@ -470,16 +473,18 @@ def main():
             results   = compute_andar(k, angle_rad, xyz_ini, bezier)
             for i, (o, f, t) in enumerate(results):
                 set_leg(robot, LEG_CONFIGS[i], o, f, t)
-            k = (k + 1) % TOTAL_PONTOS
+            if sim_tick % GAIT_TICK_STEPS == 0:
+                k = (k + 1) % TOTAL_PONTOS
 
         elif state == "TURNING":
             results = compute_andar_circular(k, angle_joystick, xyz_ini, bezier)
             for i, (o, f, t) in enumerate(results):
                 set_leg(robot, LEG_CONFIGS[i], o, f, t)
-            if abs(angle_joystick) > 90:
-                k = (k - 1) % TOTAL_PONTOS
-            else:
-                k = (k + 1) % TOTAL_PONTOS
+            if sim_tick % GAIT_TICK_STEPS == 0:
+                if abs(angle_joystick) > 90:
+                    k = (k - 1) % TOTAL_PONTOS
+                else:
+                    k = (k + 1) % TOTAL_PONTOS
 
         elif state == "BALANCE":
             roll_deg, pitch_deg = get_body_tilt(robot, smoothed_rpy)
@@ -505,7 +510,8 @@ def main():
             results = compute_rebolar(k, xyz_ini)
             for i, (o, f, t) in enumerate(results):
                 set_leg(robot, LEG_CONFIGS[i], o, f, t)
-            k = (k + 1) % TOTAL_PONTOS_CIRCULAR
+            if sim_tick % GAIT_TICK_STEPS == 0:
+                k = (k + 1) % TOTAL_PONTOS_CIRCULAR
 
         elif state == "IDLE":
             for i, cfg in enumerate(LEG_CONFIGS):
@@ -513,6 +519,7 @@ def main():
                 set_leg(robot, cfg, o, f, t)
 
         p.stepSimulation()
-        time.sleep(DT * 2)
+        time.sleep(DT)
+        sim_tick += 1
 
 main()
