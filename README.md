@@ -72,6 +72,7 @@ nano ~/.bashrc
 
 Paste at the end of bash:
 ```bash
+alias ..='cd ..'
 alias venv='source ~/venv/bin/activate'
 alias tiffanypy='cd tiffany_sim/workspace/pybullet'
 alias tiffanygz='cd tiffany_sim/workspace/gazebosim'
