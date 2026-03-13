@@ -188,15 +188,21 @@ ros2 run hexapod_ws teleop_hexapod.py
 ## Viewing Sensor Data
 GUI tools must be run **outside the venv** (`deactivate` first).
 
+> **Note:** If you get a `libpthread symbol lookup error`, make sure `LD_PRELOAD` is set in your `~/.bashrc`:
+> ```bash
+> export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpthread.so.0
+> ```
+> Then reload: `source ~/.bashrc`
+
 ### Camera Feed
 ```bash
-ros2 run rqt_image_view rqt_image_view
+LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpthread.so.0 ros2 run rqt_image_view rqt_image_view
 ```
 Select `/camera/image_raw` from the dropdown.
 
 ### Lidar in RViz
 ```bash
-ros2 run rviz2 rviz2 --ros-args -p use_sim_time:=true
+LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpthread.so.0 ros2 run rviz2 rviz2 --ros-args -p use_sim_time:=true
 ```
 In RViz:
 1. Set **Fixed Frame** to `core`
