@@ -39,8 +39,9 @@ Add to `~/.bashrc` and reload:
 
 ```bash
 source /opt/ros/jazzy/setup.bash
-source ~/tiffany_sim/workspace/gazebosim/install/setup.bash
-export GZ_SIM_RESOURCE_PATH=/opt/ros/jazzy/share:~/tiffany_sim/workspace/gazebosim/install/hexapod_ws/share
+source ~/tiffany_gazebo/install/setup.bash
+export GZ_SIM_RESOURCE_PATH=/opt/ros/jazzy/share:~/tiffany_gazebo/install/hexapod_ws/share
+export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpthread.so.0
 ```
 
 ```bash
@@ -52,7 +53,8 @@ source ~/.bashrc
 ## Build
 
 ```bash
-cd ~/tiffany_sim/workspace/gazebosim
+git clone https://github.com/SENAI4LIFE/tiffany_gazebo.git
+cd ~/tiffany_gazebo
 colcon build --symlink-install
 ```
 
@@ -111,15 +113,3 @@ In RViz:
 1. Set **Fixed Frame** to `lidar_frame`
 2. Click **Add → By topic → `/scan` → LaserScan**
 3. Click **Add → TF** to visualize joint frames
-
----
-
-## Troubleshooting
-
-**`libpthread` symbol lookup error (WSL2)**
-
-Add to `~/.bashrc` and reload:
-
-```bash
-export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpthread.so.0
-```
