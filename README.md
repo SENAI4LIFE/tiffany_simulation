@@ -47,14 +47,8 @@ sudo apt install -y \
 
 **4. Environment Setup**
 
-Add to `~/.bashrc` and reload:
-
 ```bash
 source ~/tiffany_gazebo/setup.bash
-```
-
-```bash
-source ~/.bashrc
 ```
 
 **5. Build**
