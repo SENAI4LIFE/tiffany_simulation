@@ -34,6 +34,7 @@ sudo apt install -y \
   ros-jazzy-xacro \
   ros-jazzy-rviz2 \
   ros-jazzy-slam-toolbox \
+  ros-jazzy-nav2-map-server \
   python3-colcon-common-extensions \
   python3-pyqt5 \
   python3-catkin-pkg python3-lark python3-empy \
@@ -71,9 +72,6 @@ source setup.bash
 ros2 launch hexapod_ws main.launch.py
 ```
 
-Wait for the `hexapod_controller` spawner to confirm (~10 s) before sending commands.
-SLAM starts automatically at ~20 s.
-
 ### Terminal 2 — Teleop
 ```bash
 source setup.bash
@@ -87,16 +85,16 @@ ros2 run rviz2 rviz2 --ros-args -p use_sim_time:=true
 ```
 
 In RViz:
-1. Set **Fixed Frame** to `lidar`
-2. **Add → By topic → `/scan` → LaserScan**
-3. **Add → By display type → Map**, set **Topic** to `/map`, set **Durability Policy** to `Transient Local`
-4. **Add → By topic → `/camera/image_raw` → Image**
-5. **Add → TF**
-6. Boot the robot (`E`) in Terminal 2 — the `map` frame appears after the first scan is processed
-7. Switch **Fixed Frame** to `map`
+1. **Add → By topic → `/scan` → LaserScan**
+2. **Add → By display type → Map**, set **Topic** to `/map`, set **Durability Policy** to `Transient Local`
+3. **Add → By topic → `/camera/image_raw` → Image**
+4. **Add → TF**
+5. Boot the robot (`E`) in Terminal 2 — the `map` frame appears after the first scan is processed
+6. Set **Fixed Frame** to `map`
 
 ### Save the map
 ```bash
+source setup.bash
 ros2 run nav2_map_server map_saver_cli -f ~/map
 ```
 
