@@ -41,7 +41,7 @@ def generate_launch_description():
     spawn_robot = Node(
         package='ros_gz_sim',
         executable='create',
-        arguments=['-topic', 'robot_description', '-name', 'tiffany', '-z', '0.2'],
+        arguments=['-topic', 'robot_description', '-name', 'tiffany', '-z', '0.35'],
         output='screen'
     )
 
@@ -49,18 +49,6 @@ def generate_launch_description():
         package='ros_gz_bridge',
         executable='parameter_bridge',
         arguments=['--ros-args', '-p', f'config_file:={bridge_config}'],
-        output='screen'
-    )
-
-    unload_jsb = ExecuteProcess(
-        cmd=['ros2', 'control', 'unload_controller', 'joint_state_broadcaster',
-             '--controller-manager-timeout', '5'],
-        output='screen'
-    )
-
-    unload_hex = ExecuteProcess(
-        cmd=['ros2', 'control', 'unload_controller', 'hexapod_controller',
-             '--controller-manager-timeout', '5'],
         output='screen'
     )
 
@@ -111,7 +99,6 @@ def generate_launch_description():
         gazebo,
         spawn_robot,
         bridge,
-        TimerAction(period=8.0,  actions=[unload_jsb, unload_hex]),
         TimerAction(period=12.0, actions=[jsb_spawner]),
         TimerAction(period=17.0, actions=[tiffany_ctrl_spawner]),
         TimerAction(period=22.0, actions=[tiffany_brain]),
@@ -119,3 +106,4 @@ def generate_launch_description():
         TimerAction(period=45.0, actions=[slam_configure]),
         TimerAction(period=50.0, actions=[slam_activate]),
     ])
+
