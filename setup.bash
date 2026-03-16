@@ -4,3 +4,5 @@ export GZ_SIM_RESOURCE_PATH=/opt/ros/jazzy/share:~/tiffany_gazebo/install/hexapo
 export LD_PRELOAD=/usr/lib/x86_64-linux-gnu/libpthread.so.0
 export MESA_GL_VERSION_OVERRIDE=3.3
 export LIBGL_ALWAYS_SOFTWARE=0
+
+alias rviz='ros2 run rviz2 rviz2 --ros-args -p use_sim_time:=true'
