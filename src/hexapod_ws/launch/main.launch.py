@@ -69,7 +69,6 @@ def generate_launch_description():
     tiffany_brain = Node(
         package=pkg_name,
         executable='hexapod_runner.py',
-        name='tiffany_runner',
         output='screen',
         parameters=[{'use_sim_time': True}]
     )
@@ -82,6 +81,19 @@ def generate_launch_description():
         parameters=[slam_params, {'use_sim_time': True}],
     )
 
+    slam_lifecycle = Node(
+        package='nav2_lifecycle_manager',
+        executable='lifecycle_manager',
+        name='lifecycle_manager_slam',
+        output='screen',
+        parameters=[{
+            'use_sim_time': True,
+            'autostart': True,
+            'bond_timeout': 0.0,
+            'node_names': ['slam_toolbox'],
+        }]
+    )
+
     return LaunchDescription([
         rsp,
         gazebo,
@@ -90,5 +102,6 @@ def generate_launch_description():
         TimerAction(period=5.0,  actions=[jsb_spawner]),
         TimerAction(period=10.0, actions=[tiffany_ctrl_spawner]),
         TimerAction(period=15.0, actions=[tiffany_brain]),
-        TimerAction(period=20.0, actions=[slam]),
+        TimerAction(period=25.0, actions=[slam]),
+        TimerAction(period=26.0, actions=[slam_lifecycle]),
     ])
