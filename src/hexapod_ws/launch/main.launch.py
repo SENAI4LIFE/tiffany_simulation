@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import os
 from launch import LaunchDescription
-from launch.actions import IncludeLaunchDescription, TimerAction
+from launch.actions import IncludeLaunchDescription, TimerAction, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch_ros.actions import Node
 from launch.substitutions import Command
@@ -81,17 +81,14 @@ def generate_launch_description():
         parameters=[slam_params, {'use_sim_time': True}],
     )
 
-    slam_lifecycle = Node(
-        package='nav2_lifecycle_manager',
-        executable='lifecycle_manager',
-        name='lifecycle_manager_slam',
-        output='screen',
-        parameters=[{
-            'use_sim_time': True,
-            'autostart': True,
-            'bond_timeout': 0.0,
-            'node_names': ['slam_toolbox'],
-        }]
+    slam_configure = ExecuteProcess(
+        cmd=['ros2', 'lifecycle', 'set', '/slam_toolbox', 'configure'],
+        output='screen'
+    )
+
+    slam_activate = ExecuteProcess(
+        cmd=['ros2', 'lifecycle', 'set', '/slam_toolbox', 'activate'],
+        output='screen'
     )
 
     return LaunchDescription([
@@ -99,9 +96,10 @@ def generate_launch_description():
         gazebo,
         spawn_robot,
         bridge,
-        TimerAction(period=5.0,  actions=[jsb_spawner]),
-        TimerAction(period=10.0, actions=[tiffany_ctrl_spawner]),
+        TimerAction(period=8.0,  actions=[jsb_spawner]),
+        TimerAction(period=13.0, actions=[tiffany_ctrl_spawner]),
         TimerAction(period=15.0, actions=[tiffany_brain]),
         TimerAction(period=25.0, actions=[slam]),
-        TimerAction(period=26.0, actions=[slam_lifecycle]),
+        TimerAction(period=27.0, actions=[slam_configure]),
+        TimerAction(period=30.0, actions=[slam_activate]),
     ])
