@@ -287,14 +287,20 @@ class TFRemapper(Node):
 class ScanRelay(Node):
     def __init__(self):
         super().__init__('scan_relay')
-        sensor_qos = QoSProfile(
+        sub_qos = QoSProfile(
             reliability=ReliabilityPolicy.BEST_EFFORT,
             durability=DurabilityPolicy.VOLATILE,
             history=HistoryPolicy.KEEP_LAST,
             depth=10,
         )
-        self.pub = self.create_publisher(LaserScan, '/scan', sensor_qos)
-        self.sub = self.create_subscription(LaserScan, '/scan_bridge', self._cb, sensor_qos)
+        pub_qos = QoSProfile(
+            reliability=ReliabilityPolicy.RELIABLE,
+            durability=DurabilityPolicy.VOLATILE,
+            history=HistoryPolicy.KEEP_LAST,
+            depth=10,
+        )
+        self.pub = self.create_publisher(LaserScan, '/scan', pub_qos)
+        self.sub = self.create_subscription(LaserScan, '/scan_bridge', self._cb, sub_qos)
         self.get_logger().info('Scan relay active')
 
     def _cb(self, msg: LaserScan):
